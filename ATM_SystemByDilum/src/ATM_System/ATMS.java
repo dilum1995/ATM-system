@@ -5,6 +5,8 @@
  */
 package ATM_System;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -74,6 +76,11 @@ public class ATMS extends javax.swing.JFrame {
         btnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanelMainScreen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
 
@@ -99,6 +106,11 @@ public class ATMS extends javax.swing.JFrame {
         jPanelRightbtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
 
         btnRightUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ATM_NumPad/left-64.png"))); // NOI18N
+        btnRightUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRightUpActionPerformed(evt);
+            }
+        });
 
         btnRightDown.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ATM_NumPad/left-64.png"))); // NOI18N
 
@@ -306,9 +318,19 @@ public class ATMS extends javax.swing.JFrame {
 
         btnReset.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         btnReceipt.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnReceipt.setText("Receipt");
+        btnReceipt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReceiptActionPerformed(evt);
+            }
+        });
 
         btnExit.setFont(new java.awt.Font("Lucida Grande", 1, 14)); // NOI18N
         btnExit.setText("Exit");
@@ -382,7 +404,7 @@ public class ATMS extends javax.swing.JFrame {
                         .addGroup(jPanelShowCaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtTotalPay, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTotalPay))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGap(18, 34, Short.MAX_VALUE)
                 .addGroup(jPanelShowCaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLoan, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -441,9 +463,68 @@ public class ATMS extends javax.swing.JFrame {
        frame = new JFrame("Exit");
         if (JOptionPane.showConfirmDialog(frame,"Confirm if you want to exit","Loan management system",
             JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION) {
-            
+            System.exit(0);   
         }
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        //Those will happen with the active form
+        btnLoan.setEnabled(false);
+        btnReset.setEnabled(false);
+        btnReceipt.setEnabled(false);
+        btnExit.setEnabled(false);
+    }//GEN-LAST:event_formWindowActivated
+
+    private void btnRightUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRightUpActionPerformed
+        //btnRightUp action
+        btnLoan.setEnabled(true);
+        btnReset.setEnabled(true);
+        btnReceipt.setEnabled(true);
+        btnExit.setEnabled(true);
+    }//GEN-LAST:event_btnRightUpActionPerformed
+
+    private void btnReceiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReceiptActionPerformed
+        //codes related to receipt button
+        String annualIntersetRate = String.format(txtInterest.getText());
+        String numberOfYears = String.format(txtYears.getText());
+        String loanAmmount = String.format(txtLoanAmmount.getText());
+        String monthlyPayment = String.format(txtMonthlyPay.getText());
+        String totalPayment = String.format(txtTotalPay.getText());
+        
+        int refs = 1325 + (int) (Math.random()*4238);
+        
+        Calendar timer  = Calendar.getInstance();
+        timer.getTime();
+        SimpleDateFormat tTime = new SimpleDateFormat("HH:mm:ss");
+        tTime.format(timer.getTime());
+        SimpleDateFormat Tdate = new SimpleDateFormat("dd-MMM-yyyy");
+        Tdate.format(timer.getTime());
+        
+        txtDetailsShow.append("\tLoan Managemnt System\n" + "Referance:\t\t\t" + refs +
+                "\n============================================\t "+
+                "\nInterest rate:\t\t\t " + annualIntersetRate +
+                "\nRepayment years:\t\t\t " + numberOfYears +
+                "\nAmmount of loan:\t\t\t " +"€"+ loanAmmount +
+                "\nMonthly payment:\t\t\t " + monthlyPayment +
+                "\nTotal payment:\t\t\t " + totalPayment +
+                
+                "\n============================================\t "+
+                "\nDate: "+Tdate.format(timer.getTime())+
+                "\t\tTime: "+tTime.format(timer.getTime())+
+                "\n\n\n\tThank you\n");
+        
+    }//GEN-LAST:event_btnReceiptActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+       txtInterest.setText(null);
+       txtYears.setText(null);
+       txtLoanAmmount.setText(null);
+       txtMonthlyPay.setText(null);
+       txtTotalPay.setText(null);
+       txtDetailsShow.setText(null);
+       txtInterest.setText(null);
+       
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
